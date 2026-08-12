@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AppColors.abyss. Kept in sync by hand: this is the one colour the OS
+         paints before any Dart runs, so a mismatch shows as a flash. -->
+    <color name="abyss">#050B14</color>
+</resources>

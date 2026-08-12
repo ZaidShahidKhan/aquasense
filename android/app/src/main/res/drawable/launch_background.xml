@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Painted by the OS before Flutter draws its first frame. Matches
+     AppColors.abyss so launching the app never flashes white into a dark UI. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/abyss" />
+</layer-list>

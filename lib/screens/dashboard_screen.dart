@@ -243,7 +243,7 @@ class _Header extends StatelessWidget {
         Row(
           children: [
             Text(
-              'AQUA',
+              'Aqua',
               style: TextStyle(
                 fontSize: formFactor.isCompact ? 21 : 25,
                 height: 1,
@@ -254,7 +254,7 @@ class _Header extends StatelessWidget {
               ),
             ),
             Text(
-              'SENSE',
+              'Sense',
               style: TextStyle(
                 fontSize: formFactor.isCompact ? 21 : 25,
                 height: 1,

@@ -1,6 +1,6 @@
 {
-    "name": "aquasense",
-    "short_name": "aquasense",
+    "name": "AquaSense",
+    "short_name": "AquaSense",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

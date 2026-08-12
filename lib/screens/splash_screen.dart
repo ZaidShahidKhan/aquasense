@@ -127,7 +127,7 @@ class _SplashScreenState extends State<SplashScreen> {
 class _SplashMark extends StatelessWidget {
   const _SplashMark();
 
-  static const _logo = 'assets/images/reef_alone.png';
+  static const _logo = 'assets/images/reef_circle.png';
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +185,7 @@ class _Wordmark extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'AQUA',
+              'Aqua',
               style: TextStyle(
                 fontSize: 32,
                 height: 1,
@@ -202,7 +202,7 @@ class _Wordmark extends StatelessWidget {
               ),
             ),
             Text(
-              'SENSE',
+              'Sense',
               style: TextStyle(
                 fontSize: 32,
                 height: 1,

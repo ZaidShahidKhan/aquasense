@@ -10,6 +10,16 @@ interface real hardware would.
 |---|---|
 | <img src="docs/dashboard.png" width="300"> | <img src="docs/splash.png" width="300"> |
 
+## Background
+
+Written while researching the product, before any code:
+
+- [Product understanding](docs/Product_Understanding.md) — what the system is for
+  and what the dashboard has to communicate
+- [Neptune Apex research](docs/Apex_Research.md) — how the controller, Energy Bar,
+  probes and Trident fit together, and why readings from different hardware cannot
+  be treated as one generic sensor feed
+
 ## Running it
 
 ```bash

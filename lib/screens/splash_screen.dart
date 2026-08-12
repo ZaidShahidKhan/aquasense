@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,15 +34,33 @@ class _SplashScreenState extends State<SplashScreen> {
   /// frame.
   static const _backdrop = 'assets/images/coral_background.png';
 
+  /// Held so the ambience can be faded from [dispose], where there is no longer
+  /// a context to read it from.
+  FeedbackPlayer? _feedback;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _boot());
   }
 
+  @override
+  void dispose() {
+    // Fades out as this route is torn down, which happens after the cross-fade
+    // to the dashboard — so the waves carry over the transition and then ebb,
+    // rather than cutting the moment the screen changes.
+    unawaited(_feedback?.stopAmbience() ?? Future<void>.value());
+    super.dispose();
+  }
+
   Future<void> _boot() async {
+    if (!mounted) return;
     final controller = context.read<DashboardController>();
-    final feedback = context.read<FeedbackPlayer>();
+    final feedback = _feedback = context.read<FeedbackPlayer>();
+
+    // Started before the warm-up queue rather than inside it, so the sound
+    // arrives with the screen instead of after the slowest preload.
+    unawaited(feedback.startAmbience());
 
     // Everything that would otherwise stall the first interaction happens
     // here, behind the brand, where a pause is expected and invisible:

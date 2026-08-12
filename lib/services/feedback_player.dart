@@ -19,11 +19,18 @@ abstract interface class FeedbackPlayer {
   /// A short click and tick, played when an outlet is switched.
   Future<void> tap();
 
+  /// Starts the splash ambience, looping until [stopAmbience].
+  Future<void> startAmbience();
+
+  /// Fades the ambience out and stops it.
+  Future<void> stopAmbience();
+
   void dispose();
 }
 
 class DeviceFeedback implements FeedbackPlayer {
   static const _tap = 'sounds/tap.mp3';
+  static const _ambience = 'sounds/waves.mp3';
 
   /// Short enough to read as a switch click rather than a notification buzz.
   static const _tapMillis = 28;
@@ -31,7 +38,14 @@ class DeviceFeedback implements FeedbackPlayer {
   /// Roughly a third of full power. A relay click is a tick, not a jolt.
   static const _tapAmplitude = 90;
 
+  /// Under the tap click, so a toggle still reads clearly over it.
+  static const _ambienceVolume = 0.45;
+
   final AudioPlayer _player = AudioPlayer();
+
+  /// A second player. The tap sound drives its own player with seek/resume, so
+  /// sharing one would have each sound cutting the other off.
+  final AudioPlayer _ambiencePlayer = AudioPlayer();
 
   bool _canVibrate = false;
   bool _canSetAmplitude = false;
@@ -86,5 +100,41 @@ class DeviceFeedback implements FeedbackPlayer {
   }
 
   @override
-  void dispose() => _player.dispose();
+  Future<void> startAmbience() async {
+    try {
+      // Plays once, not looped. The clip is about 1.2s against a 2.6s splash,
+      // so the last stretch is silent — preferred over hearing the loop seam.
+      await _ambiencePlayer.setReleaseMode(ReleaseMode.stop);
+      await _ambiencePlayer.setVolume(_ambienceVolume);
+      await _ambiencePlayer.play(AssetSource(_ambience));
+    } catch (_) {
+      // Atmosphere, not function — silence is an acceptable outcome.
+    }
+  }
+
+  @override
+  Future<void> stopAmbience() async {
+    try {
+      // Ramped down rather than cut, in case the splash is left before the clip
+      // has finished — stopping mid-waveform is audible as a click.
+      const steps = 8;
+      for (var i = steps - 1; i >= 0; i--) {
+        await _ambiencePlayer.setVolume(_ambienceVolume * i / steps);
+        await Future<void>.delayed(const Duration(milliseconds: 45));
+      }
+      await _ambiencePlayer.stop();
+      await _ambiencePlayer.setVolume(_ambienceVolume);
+    } catch (_) {
+      // Ignore — but still make sure it is not left playing.
+      try {
+        await _ambiencePlayer.stop();
+      } catch (_) {}
+    }
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    _ambiencePlayer.dispose();
+  }
 }

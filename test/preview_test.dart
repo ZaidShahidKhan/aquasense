@@ -26,6 +26,12 @@ class _SilentFeedback implements FeedbackPlayer {
   Future<void> tap() async {}
 
   @override
+  Future<void> startAmbience() async {}
+
+  @override
+  Future<void> stopAmbience() async {}
+
+  @override
   void dispose() {}
 }
 

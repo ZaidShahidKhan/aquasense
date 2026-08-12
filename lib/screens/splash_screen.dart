@@ -127,7 +127,7 @@ class _SplashScreenState extends State<SplashScreen> {
 class _SplashMark extends StatelessWidget {
   const _SplashMark();
 
-  static const _logo = 'assets/images/reef_circle.png';
+  static const _logo = 'assets/images/reef_alone.png';
 
   @override
   Widget build(BuildContext context) {

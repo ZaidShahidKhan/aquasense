@@ -21,6 +21,7 @@ class Outlet {
     required this.column,
     required this.isOn,
     required this.ratedWatts,
+    this.groundUp = false,
   });
 
   final String id;
@@ -43,6 +44,14 @@ class Outlet {
   /// this is the *rated* figure and [watts] is what is actually flowing.
   final double ratedWatts;
 
+  /// Whether this receptacle is mounted with its ground pin uppermost.
+  ///
+  /// The rows on this chassis are rotated 180° from each other, so a bulky
+  /// transformer in one outlet does not foul its neighbour. Carried per outlet
+  /// rather than inferred from [row], because which rows are inverted is a fact
+  /// about a particular bar.
+  final bool groundUp;
+
   /// Live draw. Zero when switched off — the whole point of the readout.
   double get watts => isOn ? ratedWatts : 0;
 
@@ -55,6 +64,7 @@ class Outlet {
       column: column,
       isOn: isOn ?? this.isOn,
       ratedWatts: ratedWatts,
+      groundUp: groundUp,
     );
   }
 }

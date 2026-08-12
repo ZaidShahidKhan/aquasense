@@ -134,7 +134,10 @@ class _OutletSocketState extends State<OutletSocket>
                       width: socket,
                       height: socket,
                       child: CustomPaint(
-                        painter: SocketPainter(energized: glow),
+                        painter: SocketPainter(
+                          energized: glow,
+                          groundUp: outlet.groundUp,
+                        ),
                       ),
                     ),
                     SizedBox(height: 7 * scale),

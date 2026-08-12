@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
@@ -13,11 +15,18 @@ import '../theme.dart';
 /// One body, one rim, one set of slots. Every extra layer of trim added to
 /// this shape made it look more cartoonish, not more real.
 class SocketPainter extends CustomPainter {
-  const SocketPainter({required this.energized});
+  const SocketPainter({required this.energized, this.groundUp = false});
 
   /// 0.0 dead, 1.0 fully live. Animated, so the socket lights up over time
   /// rather than snapping between two states.
   final double energized;
+
+  /// Draws the receptacle rotated a half turn, ground pin uppermost.
+  ///
+  /// The rows on this chassis face opposite ways. Rotating the whole contact
+  /// group rather than just moving the ground hole is what keeps it honest —
+  /// a turned socket also swaps which side the taller neutral blade is on.
+  final bool groundUp;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -60,7 +69,16 @@ class SocketPainter extends CustomPainter {
         )!,
     );
 
-    _paintSlots(canvas, rect);
+    if (groundUp) {
+      canvas.save();
+      canvas.translate(rect.center.dx, rect.center.dy);
+      canvas.rotate(math.pi);
+      canvas.translate(-rect.center.dx, -rect.center.dy);
+      _paintSlots(canvas, rect);
+      canvas.restore();
+    } else {
+      _paintSlots(canvas, rect);
+    }
   }
 
   void _paintSlots(Canvas canvas, Rect face) {
@@ -127,5 +145,5 @@ class SocketPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(SocketPainter oldDelegate) =>
-      oldDelegate.energized != energized;
+      oldDelegate.energized != energized || oldDelegate.groundUp != groundUp;
 }

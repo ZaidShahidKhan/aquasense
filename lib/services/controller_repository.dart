@@ -47,6 +47,7 @@ class MockControllerRepository implements ControllerRepository {
           row: 0,
           column: 0,
           isOn: true,
+          groundUp: true,
           ratedWatts: 42,
         ),
         Outlet(
@@ -56,6 +57,7 @@ class MockControllerRepository implements ControllerRepository {
           row: 0,
           column: 1,
           isOn: true,
+          groundUp: true,
           ratedWatts: 31,
         ),
         Outlet(
@@ -65,6 +67,7 @@ class MockControllerRepository implements ControllerRepository {
           row: 0,
           column: 2,
           isOn: false,
+          groundUp: true,
           ratedWatts: 165,
         ),
         Outlet(
@@ -74,6 +77,7 @@ class MockControllerRepository implements ControllerRepository {
           row: 0,
           column: 3,
           isOn: true,
+          groundUp: true,
           ratedWatts: 78,
         ),
         Outlet(
